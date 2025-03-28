@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <h1>Available Gigs</h1>
+
+    <table border="1">
+        <tr>
+            <th>Title</th>
+            <th>Location</th>
+            <th>Date</th>
+        </tr>
+        <% gigs.forEach(gig => { %>
+            <tr>
+                <td><%= gig.title %></td>
+                <td><%= gig.location %></td>
+                <td><%= new Date(gig.date).toLocaleDateString() %></td>
+            </tr>
+        <% }); %>
+    </table>
+
+    <a href="/">Back to Home</a>
+</body>
+</html>

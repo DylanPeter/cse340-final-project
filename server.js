@@ -1,63 +1,29 @@
-/**
- * Imports
- */
-import configNodeEnv from './src/middleware/node-env.js';
-import express from "express";
-import fileUploads from './src/middleware/file-uploads.js';
-import homeRoute from './src/routes/index.js';
-import layouts from './src/middleware/layouts.js';
-import path from "path";
-import { configureStaticPaths } from './src/utils/index.js';
+import express from 'express';
+import path from 'path';
 import { fileURLToPath } from 'url';
-import { testDatabase } from './src/models/index.js';
 
-/**
- * Global Variables
- */
-
+// Fix for ESM module imports
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const mode = process.env.NODE_ENV;
-const port = process.env.PORT;
 
-/**
- * Create and configure the Express server
- */
+// Start the server on the specified port
+const port = process.env.PORT || 3000;
+const mode = process.env.MODE || 'production';
+
+
+import gigsRoutes from './src/routes/gigs.js';
+import usersRoutes from './src/routes/users.js';
+
+// starts app 
 const app = express();
-
-// Configure the application based on environment settings
-app.use(configNodeEnv);
-
-// Configure static paths (public dirs) for the Express application
-configureStaticPaths(app);
+app.use(express.json());
 
 // Set EJS as the view engine and record the location of the views directory
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
-// Set Layouts middleware to automatically wrap views in a layout and configure default layout
-app.set('layout default', 'default');
-app.set('layouts', path.join(__dirname, 'src/views/layouts'));
-app.use(layouts);
-
-// Middleware to process multipart form data with file uploads
-app.use(fileUploads);
-
-// Middleware to parse JSON data in request body
-app.use(express.json());
-
-// Middleware to parse URL-encoded form data (like from a standard HTML form)
-app.use(express.urlencoded({ extended: true }));
-
-/**
- * Routes
- */
-
-app.use('/', homeRoute);
-
-/**
- * Start the server
- */
+// Serve static files (CSS, images, etc.)
+app.use(express.static(path.join(__dirname, 'public')));
 
 // When in development mode, start a WebSocket server for live reloading
 if (mode.includes('dev')) {
@@ -78,9 +44,16 @@ if (mode.includes('dev')) {
         console.error('Failed to start WebSocket server:', error);
     }
 }
+// Register Routes
+app.use('/', gigsRoutes);
+app.use('/api', usersRoutes);
+
+// Home Route
+app.get('/', (req, res) => {
+    res.render('index', { title: 'Concert & Gig Finder' });
+});
 
 // Start the Express server
 app.listen(port, async () => {
-    await testDatabase();
     console.log(`Server running on http://127.0.0.1:${port}`);
 });
