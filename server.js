@@ -1,6 +1,8 @@
 import express from 'express';
+import session from 'express-session'; 
 import path from 'path';
 import { fileURLToPath } from 'url';
+
 
 // Fix for ESM module imports
 const __filename = fileURLToPath(import.meta.url);
@@ -18,12 +20,21 @@ import usersRoutes from './src/routes/users.js';
 const app = express();
 app.use(express.json());
 
+app.use(session({
+    secret: process.env.SESSION_SECRET, 
+    resave: false,
+    saveUninitialized: true
+}));
+
 // Set EJS as the view engine and record the location of the views directory
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 
 // Serve static files (CSS, images, etc.)
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.urlencoded({ extended: true })); // Enable form data parsing
+app.use(express.json()); // Support JSON payloads
 
 // When in development mode, start a WebSocket server for live reloading
 if (mode.includes('dev')) {
@@ -47,6 +58,7 @@ if (mode.includes('dev')) {
 // Register Routes
 app.use('/', gigsRoutes);
 app.use('/api', usersRoutes);
+
 
 // Home Route
 app.get('/', (req, res) => {

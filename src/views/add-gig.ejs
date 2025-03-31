@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script defer src="/validate.js"></script>
+</head>
+<body>
+    <%- include('partials/navbar') %> <!-- ✅ Include Navbar -->
+    <h1>Add a New Gig</h1>
+    <% if (errors && errors.length > 0) { %>
+        <div class="error-messages">
+            <ul>
+                <% errors.forEach(error => { %>
+                    <li><%= error %></li>
+                <% }); %>
+            </ul>
+        </div>
+    <% } %>
+    <form id="gigForm" action="/add-gig" method="POST">
+        <label for="title">Gig Title:</label>
+        <input type="text" id="title" name="title" required>
+        <label for="description">Description:</label>
+        <textarea id="description" name="description"></textarea>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location" required>
+        <button type="submit">Add Gig</button>
+    </form>
+</body>
+
+</html>
+
