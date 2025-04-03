@@ -1,10 +1,23 @@
 <nav class="navbar">
     <div class="container">
-        <a href="/" class="logo">🎵 Concert & Gig Finder</a>
+        <a href="/" class="logo">🎵 Gig Finder</a>
         <ul class="nav-links">
             <li><a href="/gigs">All Gigs</a></li>
-            <li><a href="/add-gig">Add Gig</a></li>
-            <li><a href="/login">Login</a></li> <!-- Placeholder for authentication -->
+            <% if (currentUser) { %>
+                <li><a href="/add-gig">Add Gig</a></li>
+                <li><span>Welcome, <%= currentUser.username %></span></li>
+                <li><a href="/logout">Logout</a></li>
+            <% } else { %>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">Sign Up</a></li>
+            <% } %>
+            <% if (currentUser) { %>
+                <li><a href="/my-gigs">My Gigs</a></li>
+              <% } %>
+              <% if (currentUser) { %>
+                <li><a href="/my-rsvps">My RSVPs</a></li>
+              <% } %>
+              
         </ul>
     </div>
 </nav>

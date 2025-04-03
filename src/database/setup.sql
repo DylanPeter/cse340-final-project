@@ -56,3 +56,11 @@ CREATE TABLE requests (
     FOREIGN KEY (gig_id) REFERENCES gigs(id) ON DELETE CASCADE,
     UNIQUE(musician_id, gig_id)  -- Prevent duplicate applications
 );
+
+-- RSVP Table 
+CREATE TABLE IF NOT EXISTS rsvps (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  user_id INTEGER NOT NULL,
+  gig_id INTEGER NOT NULL,
+  UNIQUE(user_id, gig_id)
+);

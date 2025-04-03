@@ -9,24 +9,42 @@
   <%- include('partials/navbar') %>
 
   <div class="container">
-    <h1>All Gigs</h1>
+    <h1>My Gigs</h1>
 
     <% if (successMessage) { %>
       <div class="success-message"><%= successMessage %></div>
     <% } %>
 
-    <form action="/gigs" method="GET">
-      <input type="text" name="search" placeholder="Search by title or location" value="<%= searchTerm || '' %>" />
+    <!-- Filters -->
+    <form action="/my-gigs" method="GET">
+      <input
+        type="text"
+        name="search"
+        placeholder="Search by title or location"
+        value="<%= searchTerm || '' %>"
+      />
+
       <label for="startDate">From:</label>
-      <input type="date" name="startDate" value="<%= startDate || '' %>" />
+      <input
+        type="date"
+        name="startDate"
+        value="<%= startDate || '' %>"
+      />
+
       <label for="endDate">To:</label>
-      <input type="date" name="endDate" value="<%= endDate || '' %>" />
+      <input
+        type="date"
+        name="endDate"
+        value="<%= endDate || '' %>"
+      />
+
       <button type="submit">Filter</button>
-      <a href="/gigs" class="ml-2">Clear</a>
+      <a href="/my-gigs" class="ml-2">Clear</a>
     </form>
 
     <% if (gigs.length === 0) { %>
-      <p>No gigs found.</p>
+      <p>You haven’t posted any gigs yet.</p>
+      <a href="/add-gig">Add Your First Gig</a>
     <% } else { %>
       <table>
         <tr>
@@ -41,17 +59,10 @@
             <td><%= gig.location %></td>
             <td><%= new Date(gig.date).toLocaleDateString() %></td>
             <td>
-              <% if (currentUser && currentUser.id === gig.user_id) { %>
-                <a href="/edit-gig/<%= gig.id %>">Edit</a>
-                <form action="/delete-gig/<%= gig.id %>" method="POST" style="display:inline;">
-                  <button type="submit">Delete</button>
-                </form>
-              <% } %>
-              <% if (currentUser) { %>
-                <form action="/gigs/<%= gig.id %>/rsvp" method="POST" style="display:inline;">
-                  <button type="submit">RSVP</button>
-                </form>
-              <% } %>
+              <a href="/edit-gig/<%= gig.id %>">Edit</a>
+              <form action="/delete-gig/<%= gig.id %>" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('Delete this gig?')">Delete</button>
+              </form>
             </td>
           </tr>
         <% }) %>

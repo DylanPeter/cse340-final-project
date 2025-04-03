@@ -12,9 +12,11 @@ const __dirname = path.dirname(__filename);
 const port = process.env.PORT || 3000;
 const mode = process.env.MODE || 'production';
 
-
+// route imports
 import gigsRoutes from './src/routes/gigs.js';
 import usersRoutes from './src/routes/users.js';
+import authRoutes from './src/routes/auth.js';
+
 
 // starts app 
 const app = express();
@@ -29,6 +31,11 @@ app.use(session({
 // Set EJS as the view engine and record the location of the views directory
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
+
+app.use((req, res, next) => {
+    res.locals.currentUser = req.session.user || null;
+    next();
+});
 
 // Serve static files (CSS, images, etc.)
 app.use(express.static(path.join(__dirname, 'public')));
@@ -58,6 +65,7 @@ if (mode.includes('dev')) {
 // Register Routes
 app.use('/', gigsRoutes);
 app.use('/api', usersRoutes);
+app.use('/', authRoutes);
 
 
 // Home Route

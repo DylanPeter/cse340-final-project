@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My RSVPs</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <div class="container">
+    <h1>My RSVPs</h1>
+
+    <% if (gigs.length === 0) { %>
+      <p>You haven't RSVP’d to any gigs yet.</p>
+    <% } else { %>
+      <table>
+        <tr>
+          <th>Title</th>
+          <th>Location</th>
+          <th>Date</th>
+        </tr>
+        <% gigs.forEach(gig => { %>
+          <tr>
+            <td><%= gig.title %></td>
+            <td><%= gig.location %></td>
+            <td><%= new Date(gig.date).toLocaleDateString() %></td>
+          </tr>
+        <% }); %>
+      </table>
+    <% } %>
+  </div>
+</body>
+</html>
