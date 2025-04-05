@@ -1,6 +1,8 @@
 import express from 'express';
 import session from 'express-session'; 
 import path from 'path';
+import layouts from './src/middleware/layouts.js';
+import methodOverride from 'method-override'   
 import { fileURLToPath } from 'url';
 
 
@@ -12,21 +14,30 @@ const __dirname = path.dirname(__filename);
 const port = process.env.PORT || 3000;
 const mode = process.env.MODE || 'production';
 
-// route imports
+// Route imports
 import gigsRoutes from './src/routes/gigs.js';
 import usersRoutes from './src/routes/users.js';
 import authRoutes from './src/routes/auth.js';
-
+import adminRoutes from './src/routes/admin.js';
 
 // starts app 
 const app = express();
 app.use(express.json());
+
+// Enable layouts
+app.use(layouts);
+app.set('views', path.join(__dirname, 'src/views'));
+app.set('layouts', path.join(__dirname, 'src/views/layouts'));
+app.set('layout default', 'default');
 
 app.use(session({
     secret: process.env.SESSION_SECRET, 
     resave: false,
     saveUninitialized: true
 }));
+// Enables Admin control to delete 
+app.use(methodOverride('_method'));
+
 
 // Set EJS as the view engine and record the location of the views directory
 app.set('view engine', 'ejs');
@@ -66,6 +77,8 @@ if (mode.includes('dev')) {
 app.use('/', gigsRoutes);
 app.use('/api', usersRoutes);
 app.use('/', authRoutes);
+app.use('/', adminRoutes);
+
 
 
 // Home Route
@@ -75,5 +88,6 @@ app.get('/', (req, res) => {
 
 // Start the Express server
 app.listen(port, async () => {
+    console.log('DB_URL:', process.env.DB_URL);
     console.log(`Server running on http://127.0.0.1:${port}`);
 });

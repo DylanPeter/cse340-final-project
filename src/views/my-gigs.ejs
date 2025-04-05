@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
 <body>
-  <%- include('partials/navbar') %>
-
   <div class="container">
     <h1>My Gigs</h1>
 
@@ -38,8 +29,9 @@
         value="<%= endDate || '' %>"
       />
 
-      <button type="submit">Filter</button>
-      <a href="/my-gigs" class="ml-2">Clear</a>
+      <button type="submit" class="btn">Filter</button>
+      <a href="/my-gigs" class="btn">Clear</a>
+      <a href="/add-gig" class="btn">Add a new Gig</a>
     </form>
 
     <% if (gigs.length === 0) { %>
@@ -47,7 +39,7 @@
       <a href="/add-gig">Add Your First Gig</a>
     <% } else { %>
       <table>
-        <tr>
+        <tr>  
           <th>Title</th>
           <th>Location</th>
           <th>Date</th>
@@ -59,9 +51,14 @@
             <td><%= gig.location %></td>
             <td><%= new Date(gig.date).toLocaleDateString() %></td>
             <td>
-              <a href="/edit-gig/<%= gig.id %>">Edit</a>
+              <a href="/edit-gig/<%= gig.id %>" class="btn">Edit</a>
+            
               <form action="/delete-gig/<%= gig.id %>" method="POST" style="display:inline;">
-                <button type="submit" onclick="return confirm('Delete this gig?')">Delete</button>
+                <button type="submit" class="btn" onclick="return confirm('Delete this gig?')">Delete</button>
+              </form>
+            
+              <form action="/gigs/<%= gig.id %>/rsvp" method="POST" style="display:inline;">
+                <button type="submit" class="btn">RSVP</button>
               </form>
             </td>
           </tr>
@@ -70,4 +67,3 @@
     <% } %>
   </div>
 </body>
-</html>

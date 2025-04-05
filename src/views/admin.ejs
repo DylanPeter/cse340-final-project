@@ -1,0 +1,55 @@
+<div class="admin-container">
+<h1>Admin Dashboard</h1>
+<% if (successMessage) { %>
+    <div class="alert success">
+      <%= successMessage %>
+    </div>
+  <% } %>
+<h2>Users</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Username</th>
+    <th>Role</th>
+    <th>Action</th>
+  </tr>
+  <% users.forEach(user => { %>
+    <tr>
+      <td><%= user.id %></td>
+      <td><%= user.username %></td>
+      <td><%= user.role %></td>
+      <td>
+        <% if (user.id !== currentUser.id) { %> 
+          <form action="/admin/users/<%= user.id %>?_method=DELETE" method="POST">
+            <button type="submit" class="btn">Delete</button>
+          </form>
+        <% } %>
+      </td>
+    </tr>
+  <% }) %>
+</table>
+
+
+<h2>All Gigs</h2>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>Title</th>
+    <th>Date</th>
+    <th>User ID</th>
+    <th>Action</th>
+  </tr>
+  <% gigs.forEach(gig => { %>
+    <tr>    
+      <td><%= gig.id %></td>
+      <td><%= gig.title %></td>
+      <td><%= new Date(gig.date).toLocaleDateString() %></td>
+      <td><%= gig.user_id %></td>
+      <td>
+        <form action="/admin/gigs/<%= gig.id %>?_method=DELETE" method="POST">
+          <button type="submit" class="btn">Delete</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+</table>

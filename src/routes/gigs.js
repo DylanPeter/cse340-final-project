@@ -1,5 +1,7 @@
 import express from 'express';
 import db from '../database/db.js';
+import { isAdmin } from '../middleware/admin.js';
+
 
 const router = express.Router();
 
@@ -13,7 +15,7 @@ function isLoggedIn(req, res, next) {
 /** 
  * ✅ API: Get all gigs (returns JSON)
  */
-router.get('/api/gigs', isLoggedIn, async (req, res) => {
+router.get('/api/gigs', isLoggedIn, isAdmin, async (req, res) => {
     try {
         const gigs = await db.all('SELECT * FROM gigs');
         res.json(gigs);
@@ -25,7 +27,7 @@ router.get('/api/gigs', isLoggedIn, async (req, res) => {
 /** 
  * ✅ API: Get a single gig by ID (returns JSON)
  */
-router.get('/api/gigs/:id', isLoggedIn, async (req, res) => {
+router.get('/api/gigs/:id', isLoggedIn, isAdmin, async (req, res) => {
     const { id } = req.params;
     try {
         const gig = await db.get('SELECT * FROM gigs WHERE id = ?', [id]);
@@ -83,14 +85,14 @@ router.get('/gigs', async (req, res) => {
 /** 
  * ✅ View Route: Show the "Add Gig" form
  */
-router.get('/add-gig', isLoggedIn, (req, res) => {
+router.get('/add-gig', isLoggedIn, isAdmin, (req, res) => {
     res.render('add-gig', { title: 'Add a New Gig', errors: [] });
 });
 
 /** 
  * ✅ View Route: Handle Gig Form Submission (Server-Side Validation)
  */
-router.post('/add-gig', isLoggedIn, async (req, res) => {
+router.post('/add-gig', isLoggedIn, isAdmin, async (req, res) => {
     const { title, description, date, location } = req.body;
     const userId = req.session.user.id;
 
@@ -130,7 +132,7 @@ router.post('/add-gig', isLoggedIn, async (req, res) => {
 /**
  * ✅ GET: Render the "Edit Gig" page
  */
-router.get('/edit-gig/:id', isLoggedIn, async (req, res) => {
+router.get('/edit-gig/:id', isLoggedIn, isAdmin, async (req, res) => {
     const { id } = req.params;
     const currentUser = req.session.user;
 
@@ -151,7 +153,7 @@ router.get('/edit-gig/:id', isLoggedIn, async (req, res) => {
     }
 });
 
-router.post('/edit-gig/:id', isLoggedIn, async (req, res) => {
+router.post('/edit-gig/:id', isLoggedIn, isAdmin, async (req, res) => {
     const { id } = req.params;
     const currentUser = req.session.user;
     const { title, description, date, location } = req.body;
@@ -200,7 +202,7 @@ router.post('/edit-gig/:id', isLoggedIn, async (req, res) => {
 /**
  * ✅ POST: Delete a gig
  */
-router.post('/delete-gig/:id', isLoggedIn, async (req, res) => {
+router.post('/delete-gig/:id', isLoggedIn, isAdmin, async (req, res) => {
     const { id } = req.params;
     const currentUser = req.session.user;
 
@@ -228,7 +230,7 @@ router.post('/delete-gig/:id', isLoggedIn, async (req, res) => {
 /** 
  * ✅ API: Delete a gig (returns JSON)
  */
-router.delete('/api/gigs/:id', isLoggedIn, async (req, res) => {
+router.delete('/api/gigs/:id', isLoggedIn, isAdmin, async (req, res) => {
     const { id } = req.params;
     try {
         await db.run('DELETE FROM gigs WHERE id = ?', [id]);
@@ -240,7 +242,7 @@ router.delete('/api/gigs/:id', isLoggedIn, async (req, res) => {
 /**
  * ✅ GET: Render the "My Gig" page
  */
-router.get('/my-gigs', isLoggedIn, async (req, res) => {
+router.get('/my-gigs', isLoggedIn, isAdmin, async (req, res) => {
     const userId = req.session.user.id;
     const { search, startDate, endDate } = req.query;
     const successMessage = req.session.successMessage || '';
@@ -283,7 +285,7 @@ router.get('/my-gigs', isLoggedIn, async (req, res) => {
 /**
  * ✅ POST: Render the "RSVP" page
  */
-router.post('/gigs/:id/rsvp', isLoggedIn, async (req, res) => {
+router.post('/gigs/:id/rsvp', isLoggedIn, isAdmin, async (req, res) => {
     const gigId = req.params.id;
     const userId = req.session.user.id;
 
@@ -300,7 +302,7 @@ router.post('/gigs/:id/rsvp', isLoggedIn, async (req, res) => {
 /**
  * ✅ GET: Render the "My-RSVP" page
  */
-router.get('/my-rsvps', isLoggedIn, async (req, res) => {
+router.get('/my-rsvps', isLoggedIn, isAdmin, async (req, res) => {
     const userId = req.session.user.id;
 
     try {

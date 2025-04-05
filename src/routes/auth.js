@@ -68,7 +68,12 @@ router.post('/login', async (req, res) => {
             return res.render('login', { title: 'Login', error: 'Invalid username or password.' });
         }
 
-        req.session.user = { id: user.id, username: user.username };
+        req.session.user = {
+            id: user.id,
+            username: user.username,
+            role: user.role 
+          };
+          
         res.redirect('/gigs');
     } catch (error) {
         console.error('Login error:', error);

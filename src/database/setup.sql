@@ -6,6 +6,8 @@ CREATE TABLE users (
     password TEXT NOT NULL,  -- Hashed password
     role TEXT CHECK (role IN ('musician', 'venue', 'fan', 'admin')) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user';
+
 );
 
 -- Gigs Table

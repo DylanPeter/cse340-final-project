@@ -1,28 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-  <%- include('partials/navbar') %>
-
-  <div class="container">
+<div class="container">
     <h1>All Gigs</h1>
 
     <% if (successMessage) { %>
       <div class="success-message"><%= successMessage %></div>
     <% } %>
 
+    
     <form action="/gigs" method="GET">
       <input type="text" name="search" placeholder="Search by title or location" value="<%= searchTerm || '' %>" />
       <label for="startDate">From:</label>
       <input type="date" name="startDate" value="<%= startDate || '' %>" />
       <label for="endDate">To:</label>
       <input type="date" name="endDate" value="<%= endDate || '' %>" />
-      <button type="submit">Filter</button>
-      <a href="/gigs" class="ml-2">Clear</a>
+      <button type="submit" class="btn">Filter</button>
+      <a href="/gigs" class="btn">Clear</a>
+      <a href="/add-gig" class="btn">Add a new Gig</a>
     </form>
 
     <% if (gigs.length === 0) { %>
@@ -42,21 +34,19 @@
             <td><%= new Date(gig.date).toLocaleDateString() %></td>
             <td>
               <% if (currentUser && currentUser.id === gig.user_id) { %>
-                <a href="/edit-gig/<%= gig.id %>">Edit</a>
+                <a href="/edit-gig/<%= gig.id %>" class="btn">Edit</a>
                 <form action="/delete-gig/<%= gig.id %>" method="POST" style="display:inline;">
-                  <button type="submit">Delete</button>
+                  <button type="submit"class="btn">Delete</button>
                 </form>
               <% } %>
               <% if (currentUser) { %>
                 <form action="/gigs/<%= gig.id %>/rsvp" method="POST" style="display:inline;">
-                  <button type="submit">RSVP</button>
+                  <button type="submit" class="btn">RSVP</button>
                 </form>
               <% } %>
             </td>
           </tr>
         <% }) %>
       </table>
-    <% } %>
-  </div>
-</body>
-</html>
+    <% } %>  
+</div>
