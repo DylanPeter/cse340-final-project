@@ -88,6 +88,5 @@ app.get('/', (req, res) => {
 
 // Start the Express server
 app.listen(port, async () => {
-    console.log('DB_URL:', process.env.DB_URL);
     console.log(`Server running on http://127.0.0.1:${port}`);
 });

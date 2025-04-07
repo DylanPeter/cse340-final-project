@@ -1,47 +1,53 @@
-## Getting Started
+# 🎵 Gig Finder
 
-This document is intended to get you started quickly in building a backend driven Node.js application complete with pages and content, backend logic and a PostgreSQL database for data storage.
-## Prerequisites
+**Gig Finder** is a full-stack web application that allows musicians and venues to post, browse, RSVP to, and manage upcoming gigs. Built with Node.js, Express, EJS, and SQLite, it features full CRUD functionality, user authentication, and an admin dashboard.
 
-The only prerequisite software required to have installed at this point is Git for version control and a code editor - we will use VS Code (VSC).
+---
 
-## Package Management
+## 🚀 Features
 
-The foundation of the project development software is Node. While functional, Node depends on "packages" to add functionality to accomplish common tasks. This requires a package manager. Three common managers are NPM (Node Package Manager), YARN, and PNPM. While all do the same thing, they do it slightly differently. We will use PNPM for two reasons: 1) All packages are stored on your computer only once and then symlinks (system links) are created from the package to the project as needed, 2) performance is increased meaning that when the project builds, it does so faster.
-You will need to either install or activate PNPM before using it. See https://pnpm.io/
+- ✅ User signup, login, and logout
+- ✅ Secure password hashing with bcrypt
+- ✅ Create, read, update, and delete gigs
+- ✅ RSVP to gigs (and cancel RSVP)
+- ✅ Filter gigs by title, location, and date range
+- ✅ "My Gigs" and "My RSVPs" views
+- ✅ Admin dashboard to manage users and gigs
+- ✅ Promote/demote user roles (admin/user)
+- ✅ Full custom UI using a color palette & Google Fonts
 
-## Install the Project Dependencies
+---
 
-1. Open the downloaded project folder (where this file is located) in VS Code (VSC).
-2. Open the VSC terminal: Terminal > New Window.
-3. Run the following command in the terminal:
+## 🎨 Tech Stack
 
-    pnpm install
+| Frontend      | Backend      | Database  | Other Tools        |
+|---------------|--------------|-----------|--------------------|
+| HTML, CSS, EJS | Node.js, Express | SQLite     | bcrypt, express-session, method-override |
 
-4. The first time it may take a few minutes, depending on the speed of your computer and the speed of your Internet connection. This command will instruct PNPM to read the package.json file and download and install the dependencies (packages) needed for the project. It will build a "node_modules" folder storing each dependency and its dependencies. It should also create a pnpm-lock.yaml file. This file should NEVER be altered by you. It is an internal file (think of it as an inventory) that PNPM uses to keep track of everything in the project.
+---
 
-## Start the Express Server
+## 🖌 UI Design
 
-With the packages installed you're ready to run the initial test.
-1. If the VSC terminal is still open use it. If it is closed, open it again using the same command as before.
-2. Type the following command, then press Enter:
+- Custom color palette: [Coolors palette](https://coolors.co/001b2e-294c60-adb6c4-ffefd3-ffc49b)
+- Google Fonts: [Poppins](https://fonts.google.com/specimen/Poppins) & [Inter](https://fonts.google.com/specimen/Inter)
+- Fully responsive layout with modern styling
 
-    pnpm run dev
+---
 
-3. If the command works, you should see the message "app listening on localhost:5500" in the console.
-4. Open the package.json file.
-5. Note the "Scripts" area? There is a line with the name of "dev", which tells the nodemon package to run the server.js file.
-6. This is the command you just ran.
-7. Open the server.js file.
-8. Near the bottom you'll see two variables "Port" and "Host". The values for the variables are stored in the .env file.
-9. These variables are used when the server starts on your local machine.
+## 📸 Screenshots
 
-## Move the demo file
+> _(Add screenshots of your homepage, gigs list, and admin dashboard here!)_
 
-When you installed Git and cloned the remote repository in week 1, you should have created a simple web page.
-1. Find and move that simple web page to the public folder. Be sure to note its name.
-## Test in a browser
+---
 
-1. Go to http://localhost:5500 in a browser tab. Nothing should be visible as the server has not been setup to repond to that route.
-2. Add "/filename.html" to the end of the URL (replacing filename with the name of the file you moved to the public folder).
-3. You should see that page in the browser.
+## 🔐 Authentication & Roles
+
+- Users can create accounts and securely log in/out
+- Admins can access `/admin` dashboard
+- Admins can delete any user or gig and promote/demote users
+
+---
+
+## 📁 Folder Structure
+
+├── public/ # CSS and client-side JS ├── src/ │ ├── routes/ # All route files │ ├── views/ # EJS templates │ ├── database/ # SQLite DB and setup │ └── middleware/ # Auth and admin checks ├── server.js # App entry point └── .env # Environment variables (not committed)

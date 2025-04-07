@@ -319,5 +319,20 @@ router.get('/my-rsvps', isLoggedIn, isAdmin, async (req, res) => {
     }
 });
 
+// Remove RSVP for a gig
+router.post('/gigs/:id/unrsvp', isLoggedIn, async (req, res) => {
+    const gigId = req.params.id;
+    const userId = req.session.user.id;
+  
+    try {
+      await db.run('DELETE FROM rsvps WHERE user_id = ? AND gig_id = ?', [userId, gigId]);
+      req.session.successMessage = 'RSVP removed.';
+      res.redirect('/my-rsvps');
+    } catch (error) {
+      console.error('Error removing RSVP:', error);
+      res.status(500).send('Error removing RSVP.');
+    }
+  });
+  
 
 export default router;

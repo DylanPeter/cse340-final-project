@@ -5,6 +5,7 @@
         <li><a href="/gigs">Browse Gigs</a></li>
         <% if (currentUser) { %>
           <li><a href="/my-gigs">My Gigs</a></li>
+          <li><a href="/add-gig">Add Gig</a></li>
           <li><a href="/my-rsvps">My RSVPs</a></li>
           <% if (currentUser.role === 'admin') { %>
             <li><a href="/admin">Admin</a></li>

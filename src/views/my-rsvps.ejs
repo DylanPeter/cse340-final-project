@@ -7,15 +7,22 @@
     <% } else { %>
       <table>
         <tr>
-          <th>Title</th>
+          <th>Artist</th>
           <th>Location</th>
           <th>Date</th>
+          <th>Action</th>
         </tr>
         <% gigs.forEach(gig => { %>
           <tr>
             <td><%= gig.title %></td>
             <td><%= gig.location %></td>
-            <td><%= new Date(gig.date).toLocaleDateString() %></td>
+            <td><%= new Date(gig.date).toLocaleDateString() %> 
+            </td>
+            <td>  
+              <form action="/gigs/<%= gig.id %>/unrsvp" method="POST" style="display:inline;">
+                <button type="submit" class="btn">Cancel RSVP</button>
+              </form>
+            </td>
           </tr>
         <% }); %>
       </table>
