@@ -28,7 +28,7 @@ router.post('/signup', async (req, res) => {
             [username, hashedPassword]
         );
 
-        // ✅ Auto login after successful signup
+        // Auto login after successful signup
         req.session.user = {
             id: result.lastID,
             username

@@ -1,4 +1,4 @@
-/* 🎨 Color Palette Variables */
+/* Color Palette Variables */
 :root {
   --midnight: #001b2e;
   --steel: #294c60;
@@ -8,7 +8,7 @@
   --text-dark: #1c1c1c;
 }
 
-/* 🎵 Fonts */
+/* Fonts */
 body {
   font-family: 'Inter', sans-serif;
   background-color: var(--cream);
@@ -20,7 +20,7 @@ h1, h2, h3, nav a.logo {
   font-family: 'Poppins', sans-serif;
 }
 
-/* 🧭 Navbar */
+/* Navbar */
 .navbar {
   background-color: var(--midnight);
   color: white;
@@ -128,7 +128,7 @@ select {
   transition: background 0.3s ease;
 }
 
-/* ❌ Special style for delete */
+/* special style for delete */
 .btn-danger {
   background-color: var(--peach);
   color: var(--midnight);

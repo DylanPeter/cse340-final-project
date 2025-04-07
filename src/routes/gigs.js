@@ -13,7 +13,7 @@ function isLoggedIn(req, res, next) {
 }
 
 /** 
- * ✅ API: Get all gigs (returns JSON)
+ * API: Get all gigs (returns JSON)
  */
 router.get('/api/gigs', isLoggedIn, isAdmin, async (req, res) => {
     try {
@@ -25,7 +25,7 @@ router.get('/api/gigs', isLoggedIn, isAdmin, async (req, res) => {
 });
 
 /** 
- * ✅ API: Get a single gig by ID (returns JSON)
+ * API: Get a single gig by ID (returns JSON)
  */
 router.get('/api/gigs/:id', isLoggedIn, isAdmin, async (req, res) => {
     const { id } = req.params;
@@ -39,7 +39,7 @@ router.get('/api/gigs/:id', isLoggedIn, isAdmin, async (req, res) => {
 });
 
 /** 
- * ✅ View Route: Render all gigs in EJS
+ * View Route: Render all gigs in EJS
  */
 router.get('/gigs', async (req, res) => {
     const { search, startDate, endDate } = req.query;
@@ -83,14 +83,14 @@ router.get('/gigs', async (req, res) => {
 
 
 /** 
- * ✅ View Route: Show the "Add Gig" form
+ * View Route: Show the "Add Gig" form
  */
 router.get('/add-gig', isLoggedIn, isAdmin, (req, res) => {
     res.render('add-gig', { title: 'Add a New Gig', errors: [] });
 });
 
 /** 
- * ✅ View Route: Handle Gig Form Submission (Server-Side Validation)
+ * View Route: Handle Gig Form Submission (Server-Side Validation)
  */
 router.post('/add-gig', isLoggedIn, isAdmin, async (req, res) => {
     const { title, description, date, location } = req.body;
@@ -130,7 +130,7 @@ router.post('/add-gig', isLoggedIn, isAdmin, async (req, res) => {
 
 
 /**
- * ✅ GET: Render the "Edit Gig" page
+ * GET: Render the "Edit Gig" page
  */
 router.get('/edit-gig/:id', isLoggedIn, isAdmin, async (req, res) => {
     const { id } = req.params;
@@ -176,7 +176,7 @@ router.post('/edit-gig/:id', isLoggedIn, isAdmin, async (req, res) => {
 
         if (!gig) return res.status(404).send('Gig not found.');
 
-        // 🔐 Prevent unauthorized edit
+        // Prevent unauthorized edit
         if (gig.user_id !== currentUser.id) {
             return res.status(403).send('You are not authorized to edit this gig.');
         }
@@ -200,7 +200,7 @@ router.post('/edit-gig/:id', isLoggedIn, isAdmin, async (req, res) => {
 
 
 /**
- * ✅ POST: Delete a gig
+ * POST: Delete a gig
  */
 router.post('/delete-gig/:id', isLoggedIn, isAdmin, async (req, res) => {
     const { id } = req.params;
@@ -211,7 +211,7 @@ router.post('/delete-gig/:id', isLoggedIn, isAdmin, async (req, res) => {
 
         if (!gig) return res.status(404).send('Gig not found.');
 
-        // 🔐 Prevent unauthorized delete
+        // Prevent unauthorized delete
         if (gig.user_id !== currentUser.id) {
             return res.status(403).send('You are not authorized to delete this gig.');
         }
@@ -228,7 +228,7 @@ router.post('/delete-gig/:id', isLoggedIn, isAdmin, async (req, res) => {
 
 
 /** 
- * ✅ API: Delete a gig (returns JSON)
+ * API: Delete a gig (returns JSON)
  */
 router.delete('/api/gigs/:id', isLoggedIn, isAdmin, async (req, res) => {
     const { id } = req.params;
@@ -240,7 +240,7 @@ router.delete('/api/gigs/:id', isLoggedIn, isAdmin, async (req, res) => {
     }
 });
 /**
- * ✅ GET: Render the "My Gig" page
+ * GET: Render the "My Gig" page
  */
 router.get('/my-gigs', isLoggedIn, isAdmin, async (req, res) => {
     const userId = req.session.user.id;
@@ -283,7 +283,7 @@ router.get('/my-gigs', isLoggedIn, isAdmin, async (req, res) => {
     }
 });
 /**
- * ✅ POST: Render the "RSVP" page
+ * POST: Render the "RSVP" page
  */
 router.post('/gigs/:id/rsvp', isLoggedIn, isAdmin, async (req, res) => {
     const gigId = req.params.id;
@@ -300,7 +300,7 @@ router.post('/gigs/:id/rsvp', isLoggedIn, isAdmin, async (req, res) => {
     res.redirect('/gigs');
 });
 /**
- * ✅ GET: Render the "My-RSVP" page
+ * GET: Render the "My-RSVP" page
  */
 router.get('/my-rsvps', isLoggedIn, isAdmin, async (req, res) => {
     const userId = req.session.user.id;
